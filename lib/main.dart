@@ -12,8 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  PostResult postResult = null;
-  User user = null;
+  String output = "no data";
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +29,15 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment
                 .spaceEvenly, //Place the free space evenly between the children as well as before and after the first and last child.
             children: <Widget>[
-              Text((user !=
-                      null) //if condition for if there is data that we want, then it will show us all that we requested
-                  ? user.id + " | " + user.name
-                  : "No Data"), //if there is no data then the text would be shown as No Data
+              Text(
+                  output), //if there is no data then the text would be shown as No Data
               RaisedButton(
                 onPressed: () {
-                  User.connectToAPI("3").then((value) {
-                    user = value;
+                  User.getUsers("2").then((users) { //the page we want to show
+                    //whichwe want the users data to request
+                    output = "";
+                    for (int i = 0; i < users.length; i++)
+                      output = output + "[" + users[i].name + "]";
                     setState(() {});
                   });
                 },
